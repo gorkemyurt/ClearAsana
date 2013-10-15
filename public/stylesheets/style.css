@@ -1,0 +1,24 @@
+.main{
+	height: 100%;
+	background: url('../images/mini.jpg') 50% 0 no-repeat fixed; 
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}	
+.white{
+	color: white;
+}
+
+.titlename{
+	margin-top: 25%;
+}
+
+.signbutton{
+	margin-top: 40%;
+}
+
+.fontfam {
+	font-family: 'Source Sans Pro', sans-serif;
+}
