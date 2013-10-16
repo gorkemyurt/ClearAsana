@@ -40,7 +40,7 @@ define([
 
 				$('#rel-mes').toggle();
 				this.inputVisible = false;
-				// this.dragHeight = 0;
+				this.dragHeight = 0;
 				this.collection.add({content: $('#add-item-input').val(), rank : 0})
 				$('#add-item-input').val("");
 
@@ -65,6 +65,7 @@ define([
 							$('#add-item-input').toggle();
 							this.inputVisible = true;
 							$('#add-item-input').focus();
+							console.log(here);
 							$("#list").animate({ opacity: 0.3 }, 500, 'ease-out')
 							// $("#list").opacity: .6;
 
@@ -91,8 +92,10 @@ define([
 		            if(angle < -90) {
 		              angle = -90;
 		            }
-		            $('#special')[0].style.webkitTransform = 'translate3d(0,'+ this.dragHeight +'px,0) scale3d(1,1,1)';
-		            $(".parent2")[0].style.webkitTransform = 'rotateX(' + (angle + 90 ) + 'deg)';
+		            if( this.dragHeight > 0 ){
+						$('#special')[0].style.webkitTransform = 'translate3d(0,'+ this.dragHeight +'px,0) scale3d(1,1,1)';
+						$(".parent2")[0].style.webkitTransform = 'rotateX(' + (angle + 90 ) + 'deg)';
+		            }
 		            if(this.dragHeight > 40){
 		            	if(!this.relMesVisible){
 		            		$('#pull-mes').toggle();
