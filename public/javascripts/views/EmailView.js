@@ -27,7 +27,7 @@ define([
 			_.bindAll(this);
     		this.model.on('change', this.render);
     		this.model.on('change-item', this.renderChange);
-
+    	}
     });
     return EmailView;
 	

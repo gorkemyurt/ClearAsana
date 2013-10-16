@@ -1,0 +1,88 @@
+body {
+  background-color: #fcfcf9;
+  font-size: 16px;
+  color: #3d3f44;
+  font-family: "Calibri", "Helvetica", "Arial", sans-serif;
+}
+p {
+  margin-bottom: 1em;
+}
+hr {
+  margin: 10px 0px;
+  border: none;
+  height: 1px;
+  background-color: #ccc;
+  -webkit-box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.75);
+  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.75);
+}
+
+
+div {
+  height: 50px;
+}
+.div1 {
+  background-color: #de2617;
+}
+.div2 {
+  background-color: #ed3526;
+}
+.div3 {
+  background-color: #fc4435;
+}
+.div4 {
+  background-color: #fd650a;
+}
+.div5 {
+  background-color: #ff7419;
+}
+.div6 {
+  background-color: #fbb704;
+}
+
+/* Static state */
+    #container  { 
+      width: 400px; 
+      height: 400px; 
+      position: relative; 
+      border: 1px solid #ccc; 
+    }
+    .parent1  { 
+      /* overall animation container */
+      height: 0; 
+      overflow: hidden;
+
+      -webkit-transition-property: height;
+      -webkit-transition-duration: .5s; 
+      -webkit-perspective: 1000px; 
+      -webkit-transform-style: preserve-3d; 
+    }
+    .parent2  { 
+      /* full content during animation *can* go here */ 
+    }
+    .parent3  { 
+      /* animated, "folded" block */
+      height: 50px; 
+
+      -webkit-transition-property: all; 
+      -webkit-transition-duration: 1s;
+      -webkit-transform: rotateX(90deg);
+      -webkit-transform-origin: bottom; 
+
+    }
+
+    /* Hover states to trigger animations */
+    #container:hover .parent1 { height: 111px; }
+
+
+    
+    #container:hover .parent3 { 
+      -webkit-transform: rotateX(0deg); 
+      -moz-transform: rotateX(0deg); 
+      -o-transform: rotateX(0deg); 
+      transform: rotateX(0deg); 
+      height: 111px; 
+    }
+
+
+
+    

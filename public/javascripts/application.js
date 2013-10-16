@@ -13,6 +13,7 @@ require.config({
     'moment' : 'lib/moment.min',
     "zepto" : 'lib/zepto',
     "deferred" : 'lib/deferred1',
+    "hammer" : 'lib/hammer',
 
 //backbone app
     "MyApp" : 'app',
@@ -51,6 +52,9 @@ require.config({
     },
     'deferred':{
         deps: ["zepto"],
+    },
+    'hammer' : {
+        deps: ["zepto"]
     },
     'underscore': {
       exports: '_'
@@ -124,6 +128,7 @@ require(
     "MyApp",
     "socketio",
     "deferred",
+    "hammer",
     "foundation.alerts",
     "foundation.clearing",
     "foundation.cookie",
@@ -139,7 +144,7 @@ require(
     "foundation.tooltips",
     "foundation.topbar"
   ],
-  function($ , _, Backbone, less, Marionette, MyApp, io, Deferred) {
+  function($ , _, Backbone, less, Marionette, MyApp, io, Deferred, hammer) {
 
     $(document).foundation();
 

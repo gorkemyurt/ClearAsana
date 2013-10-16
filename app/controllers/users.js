@@ -15,7 +15,7 @@ exports.login = function(req,res){
 		res.render('index' , {user : req.user.id});
 	}
 	else{
-		res.render('login')
+		res.render('index')
 	}
 }
 

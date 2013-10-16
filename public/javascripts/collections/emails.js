@@ -15,6 +15,7 @@ define([
 
 	   	initialize : function() {
 	   		this.on('change', this.onModelSaved , this);
+	   	}
 	  //  		var that = this;
 		 //    var socket = io.connect();
 
