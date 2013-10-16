@@ -12,7 +12,8 @@ define([
     	template : _.template(addItemTemplate),
     	initialize:function(){
     		this.dragHeight = 0;
-    		this.inputVisible = false
+    		this.inputVisible = false;
+    		this.relMesVisible = false;
 
     		$('body').hammer();
     		_.bindAll(this);
@@ -31,12 +32,12 @@ define([
 
 				$('#add-item-input').toggle();
 
-				$('#pull-mes').toggle();
+				$('#rel-mes').toggle();
 				this.inputVisible = false;
 				this.dragHeight = 0;
 				this.collection.add({content: $('#add-item-input').val(), rank : 0})
 				$('#add-item-input').val("");
-				
+
 				$("#list").animate({ opacity: 1 }, 500, 'ease-out')
 
 
@@ -45,16 +46,13 @@ define([
 	   	handleDrag: function(ev){
 	   		switch(ev.type){
 		        case 'touch':
-		            // console.log('touch');
 		        case 'release':
-
+		        	// console.log(this.dragHeight);
 		            if(this.dragHeight > 40)  {
 		            	$('#special')[0].style.webkitTransform = 'translate3d(0,60px,0) 0.5s scale3d(1,1,1)';
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(0deg)';
-		            	console.log(this.dragHeight);
 		            	if(!this.inputVisible && this.dragHeight != 0 ){
-		            		console.log("show and focus on input");
-							$('#pull-mes').toggle();
+							$('#rel-mes').toggle();
 							$('#add-item-input').toggle();
 							this.inputVisible = true;
 							$('#add-item-input').focus();
@@ -65,8 +63,8 @@ define([
 		            	break;
 
 		            }
-		            else if(this.dragHeight != 0){
-		            	// $('#special')[0].style.webkitTransfrom = 'translate3d 5s ease-out';
+		            else if(this.dragHeight <= 0){
+		            	this.dragHeight = 0;
 		            	$('#special')[0].style.webkitTransform = 'translate3d(0,0,0) scale3d(1,1,1)';
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(90deg) ';
 
@@ -86,6 +84,23 @@ define([
 		            }
 		            $('#special')[0].style.webkitTransform = 'translate3d(0,'+ this.dragHeight +'px,0) scale3d(1,1,1)';
 		            $(".parent2")[0].style.webkitTransform = 'rotateX(' + (angle + 90 ) + 'deg)';
+		            if(this.dragHeight > 40){
+		            	if(!this.relMesVisible){
+		            		$('#pull-mes').toggle();
+		            		$('#rel-mes').toggle();
+		            		this.relMesVisible = true;
+		            	}
+
+
+		            }
+		           	if(this.dragHeight < 40){
+		           		if(this.relMesVisible){
+		            		$('#pull-mes').toggle();
+		            		$('#rel-mes').toggle();
+		            		this.relMesVisible = false;
+		            	}
+
+		            }
 		 	}
 
 	   	},
