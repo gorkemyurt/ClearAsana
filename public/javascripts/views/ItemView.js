@@ -39,9 +39,9 @@ define([
     	handleSwipe:function(ev){
 
     		console.log(ev.type);
-    		switch(ev.type){
-    			case
-    		}
+    		// switch(ev.type){
+    		// 	case
+    		// }
     	}
     });
     return ItemView;
