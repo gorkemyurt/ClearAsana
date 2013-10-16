@@ -21,6 +21,12 @@ define([
 			Hammer($('#special')[0]).on("touch release dragdown", function(ev) {
 				that.handleDrag(ev);
 			});
+			console.log($('.todo'));
+			console.log($('#special'));
+
+			Hammer($('.todo')).on("touch release swipeleft", function(ev) {
+				that.handleSwipeLeft(ev);
+			});
     	},
     	events:{
 			"keyup #add-item-input" : "submitItem"
@@ -34,7 +40,7 @@ define([
 
 				$('#rel-mes').toggle();
 				this.inputVisible = false;
-				this.dragHeight = 0;
+				// this.dragHeight = 0;
 				this.collection.add({content: $('#add-item-input').val(), rank : 0})
 				$('#add-item-input').val("");
 
@@ -42,6 +48,9 @@ define([
 
 
 			}
+    	},
+    	handleSwipeLeft: function(ev){
+    		console.log("swipe left event is triggered")
     	},
 	   	handleDrag: function(ev){
 	   		switch(ev.type){
@@ -63,7 +72,7 @@ define([
 		            	break;
 
 		            }
-		            else if(this.dragHeight <= 0){
+		            else if(this.dragHeight != 0){
 		            	this.dragHeight = 0;
 		            	$('#special')[0].style.webkitTransform = 'translate3d(0,0,0) scale3d(1,1,1)';
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(90deg) ';
