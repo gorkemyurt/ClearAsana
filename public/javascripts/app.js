@@ -41,10 +41,10 @@ define([
             $('#special')[0].style.webkitTransform = 'translate3d(0,'+height+'px,0) scale3d(1,1,1)';
             $(".parent2")[0].style.webkitTransform = 'rotateX(' + (angle + 90 ) + 'deg)';
 
-            // if(height > 40){
-            //   $(".div1").text("Release to Create Item");
+            if(height > 40){
+              $(".div1").text("Release to Create Item");
 
-            // }
+            }
 
       }
     }

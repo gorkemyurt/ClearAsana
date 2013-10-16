@@ -18,11 +18,10 @@ module.exports = {
     root: rootPath,
     db: 'mongodb://localhost/"**YOUR DATABASE**"'
   },
-  // },
-  // staging: {
-  //   root: rootPath,
-  //   db: 'mongodb://heroku_app18193488:itgke13j50hrojfi876djpqrem@ds045628.mongolab.com:45628/heroku_app18193488'
-  // },
+  staging: {
+    root: rootPath,
+    db: 'mongodb://heroku_app18701713:grgb67kmf1m6d2ks5pr4hkn34u@ds049868.mongolab.com:49868/heroku_app18701713'
+  },
   production: {
     root: rootPath,
     db: 'mongodb://heroku_app18701713:grgb67kmf1m6d2ks5pr4hkn34u@ds049868.mongolab.com:49868/heroku_app18701713'
