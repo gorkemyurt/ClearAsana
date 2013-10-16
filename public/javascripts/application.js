@@ -19,13 +19,14 @@ require.config({
     "MyApp" : 'app',
 
 //backbone models and collections
-    'Email' : 'models/email',
-    "Emails" : 'collections/emails',
+    'Item' : 'models/item',
+    "Items" : 'collections/items',
 
 //backbone views
-    "EmailsView" : 'views/EmailsView',
-    "EmailView" : 'views/EmailView',
-    "NoEmailView" : 'views/NoEmailView',
+    "ItemsView" : 'views/ItemsView',
+    "ItemView" : 'views/ItemView',
+    "AddItemView" : 'views/AddItemView',
+    "NoItemView" : 'views/NoItemView',
 
 //foundation
     "foundation": "foundation/foundation",

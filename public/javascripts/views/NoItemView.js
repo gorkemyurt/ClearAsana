@@ -2,15 +2,15 @@ define([
 	'underscore',
 	'backbone',
 	'marionette',
-	'Email',
+	'Item',
 	// 'text!templates/NoEmailTemplate.html',
-	'Emails'
+	'Items'
 
-], function (_, Backbone, Marionette,Email , Emails ) {
+], function (_, Backbone, Marionette,Item , Items ) {
 	'use strict';
 
 
-	var NoEmailView = Backbone.Marionette.ItemView.extend({
+	var NoItemView = Backbone.Marionette.ItemView.extend({
 
 		template: "#NoEmailTemplate",
 
@@ -19,7 +19,7 @@ define([
 	    }
 
 		});
-	    return NoEmailView;
+	    return NoItemView;
 	
 });
 

@@ -3,10 +3,11 @@ define([
 	'underscore',
 	'backbone',
 	'marionette',
-], function ($,_, Backbone, Marionette) {
+	'text!templates/itemTemplate.html'
+], function ($,_, Backbone, Marionette, itemTemplate) {
 	'use strict';
 
-	var EmailView = Backbone.Marionette.ItemView.extend({
+	var ItemView = Backbone.Marionette.ItemView.extend({
 	    events: function(){
 	    	var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
 	    	var events_hash = {
@@ -21,15 +22,17 @@ define([
 			return events_hash;
 	    },
 
-		// template: _.template(emailTemplate),
+		template: _.template(itemTemplate),
 
 		initialize : function(){
+	   		console.log("itemView gets initialized");
+
 			_.bindAll(this);
     		this.model.on('change', this.render);
     		this.model.on('change-item', this.renderChange);
     	}
     });
-    return EmailView;
+    return ItemView;
 	
 });
 
