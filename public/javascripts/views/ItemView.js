@@ -25,11 +25,23 @@ define([
 		template: _.template(itemTemplate),
 
 		initialize : function(){
-	   		console.log("itemView gets initialized");
+			console.log(this.$el);
+			// console.log(this.el);
+			var that = this;
+			Hammer(this.$el).on("touch release swipeleft", function(ev) {
+				that.handleSwipe(ev);
+			});
 
 			_.bindAll(this);
     		this.model.on('change', this.render);
     		this.model.on('change-item', this.renderChange);
+    	},
+    	handleSwipe:function(ev){
+
+    		console.log(ev.type);
+    		switch(ev.type){
+    			case
+    		}
     	}
     });
     return ItemView;

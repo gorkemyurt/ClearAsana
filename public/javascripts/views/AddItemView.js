@@ -21,12 +21,12 @@ define([
 			Hammer($('#special')[0]).on("touch release dragdown", function(ev) {
 				that.handleDrag(ev);
 			});
-			console.log($('.todo'));
-			console.log($('#special'));
 
-			Hammer($('.todo')).on("touch release swipeleft", function(ev) {
-				that.handleSwipeLeft(ev);
-			});
+			// for (var element in todoDomArray){
+			// 	Hammer(todoDomArray[element]).on("touch release swipeleft", function(ev) {
+			// 		that.handleSwipeLeft(ev);
+			// 	});
+			// }
     	},
     	events:{
 			"keyup #add-item-input" : "submitItem"
@@ -92,11 +92,12 @@ define([
 		            if(angle < -90) {
 		              angle = -90;
 		            }
-		            if( this.dragHeight > 0 ){
+
+		            if( this.dragHeight > 0  ){
 						$('#special')[0].style.webkitTransform = 'translate3d(0,'+ this.dragHeight +'px,0) scale3d(1,1,1)';
 						$(".parent2")[0].style.webkitTransform = 'rotateX(' + (angle + 90 ) + 'deg)';
 		            }
-		            if(this.dragHeight > 40){
+		            if(this.dragHeight > 40 ){
 		            	if(!this.relMesVisible){
 		            		$('#pull-mes').toggle();
 		            		$('#rel-mes').toggle();
@@ -105,7 +106,7 @@ define([
 
 
 		            }
-		           	if(this.dragHeight < 40){
+		           	if(this.dragHeight < 40 ) {
 		           		if(this.relMesVisible){
 		            		$('#pull-mes').toggle();
 		            		$('#rel-mes').toggle();

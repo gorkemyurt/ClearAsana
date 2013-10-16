@@ -9,7 +9,8 @@ define([
 
     var ItemsView = Backbone.Marionette.CollectionView.extend({
     	itemView : ItemView,
-
+    	initialize:function(){
+    	},
     	appendHtml: function(collectionView, itemView){
     	// var counter = 1;
 			for (var item in this.collection.models){
