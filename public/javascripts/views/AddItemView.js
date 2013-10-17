@@ -18,15 +18,11 @@ define([
     		$('body').hammer();
     		_.bindAll(this);
     		var that = this;
-			Hammer($('#special')[0]).on("touch release dragdown", function(ev) {
+			Hammer($('#special')[0], {drag_block_horizontal: true}).on("touch release dragdown", function(ev) {
 				that.handleDrag(ev);
 			});
 
-			// for (var element in todoDomArray){
-			// 	Hammer(todoDomArray[element]).on("touch release swipeleft", function(ev) {
-			// 		that.handleSwipeLeft(ev);
-			// 	});
-			// }
+// drag_block_vertical: false
     	},
     	events:{
 			"keyup #add-item-input" : "submitItem"
@@ -49,25 +45,21 @@ define([
 
 			}
     	},
-    	handleSwipeLeft: function(ev){
-    		console.log("swipe left event is triggered")
-    	},
 	   	handleDrag: function(ev){
 	   		switch(ev.type){
 		        case 'touch':
+
 		        case 'release':
-		        	// console.log(this.dragHeight);
 		            if(this.dragHeight > 40)  {
-		            	$('#special')[0].style.webkitTransform = 'translate3d(0,60px,0) 0.5s scale3d(1,1,1)';
+		            	$('#special')[0].style.webkitTransform = 'translate3d(0,60px,0) scale3d(1,1,1)';
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(0deg)';
 		            	if(!this.inputVisible && this.dragHeight != 0 ){
 							$('#rel-mes').toggle();
 							$('#add-item-input').toggle();
 							this.inputVisible = true;
 							$('#add-item-input').focus();
-							console.log(here);
-							$("#list").animate({ opacity: 0.3 }, 500, 'ease-out')
-							// $("#list").opacity: .6;
+							$("#list").animate({ opacity: 0.3 }, 500, 'ease-out');
+							
 
 		            	}
 		            	break;
@@ -83,8 +75,8 @@ define([
 
 		            }
 		        case 'dragdown':
+		        //here you should consider starting the interaction after the user lowered down a little bit
 		            this.dragHeight = ev.gesture.deltaY;
-
 		            if(this.dragHeight >= 60 ){
 		              this.dragHeight = 60;
 		            }

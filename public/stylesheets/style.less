@@ -23,6 +23,7 @@
 @color7 : @color6 +  20;
 @color8 : @color7 + 20;
 
+
 body { 
 	font-weight:bold;
 	background-color: #292929 !important;
@@ -37,15 +38,15 @@ p {
 	color: white;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	padding-left: 2%;
 	line-height: 20px;
 	font-size: 15px;
+	position: absolute;
+	width: 100%;
+	z-index: 9999;
+
+
 }
 
-.rel{
-	background-color: #292929 !important;
-	position: relative;
-}
 .div1{
 	background-color: @color1;
 }
@@ -78,11 +79,18 @@ p {
 
 #special{
 	width: 100%;
-	height : 100%
+	height : 100%;
+	position: relative;
 }
 
 #rel-mes{
 	display: none;
+}
+
+#list{
+	position: relative;
+	// overflow-x: hidden;
+
 }
 
 #add-item-input{
@@ -104,15 +112,34 @@ input, select {
     outline: none;
 }
 
+.item-container{
+	height: 60px;
+	width: 100%;
+	line-height: 20px;
+	font-size: 15px;
+	position: relative;
+}
 
-// #speciala{
-// 	width: 100%;
-// 	height : 100%;
-// 	-webkit-user-select: none;
-// 	-webkit-user-drag: none;
-// 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-// 	-webkit-transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1);
-// }
+.bottom{
+	z-index: 1;
+	color: red;
+}
+
+.button-container{
+	position: relative;
+}
+.content{
+	margin-left: 2%;
+}
+
+.delete-button{
+	position: absolute;
+	right: 2%;
+	top: 3px;
+	font-size: 25px;
+	font-weight: bold;
+	opacity: 0.4;
+}
 
 #container  { 
    	  background-color: #292929 !important;
