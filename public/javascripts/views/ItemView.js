@@ -91,7 +91,7 @@ define([
 						else if (Math.abs(slideRate) > 100){
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".delete-button").css('opacity', 1);
-    						this.el.getElementsByClassName('delete-button')[0].style.webkitTransform = 'translate(' + (slideRate + (200) ) + 'px,0)';
+    						this.el.getElementsByClassName('delete-button')[0].style.webkitTransform = 'translate(' + (slideRate + (100) ) + 'px,0)';
 
 						}
 		
