@@ -72,6 +72,11 @@ define([
 							
 
 		            	}
+						setTimeout(function(){
+							Events.trigger("allowHorizontal");
+
+						}, 300);
+
 		            	break;
 
 		            }
@@ -79,6 +84,10 @@ define([
 		            	this.dragHeight = 0;
 		            	$('#special')[0].style.webkitTransform = 'translate3d(0,0,0) scale3d(1,1,1)';
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(90deg) ';
+		            	setTimeout(function(){
+							Events.trigger("allowHorizontal");
+						}, 300);
+
 
 		            	break;
 
@@ -86,6 +95,7 @@ define([
 		            }
 		        case 'dragdown':
 		        //here you should consider starting the interaction after the user lowered down a little bit
+		            Events.trigger("blockHorizontal");
 		            this.dragHeight = ev.gesture.deltaY;
 		            if(this.dragHeight >= 60 ){
 		              this.dragHeight = 60;

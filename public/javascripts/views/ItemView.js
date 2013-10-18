@@ -10,17 +10,17 @@ define([
 
 	var ItemView = Backbone.Marionette.ItemView.extend({
 	    events: function(){
-	    	var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
-	    	var events_hash = {
-    			// insert all the events that go here regardless of mobile or not
-  			};
-			if (isMobile) {
-			    _.extend(events_hash, {"tap .delete-fooditem": "deleteFoodItem"});
+	  //   	var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
+	  //   	var events_hash = {
+   //  			// insert all the events that go here regardless of mobile or not
+  	// 		};
+			// if (isMobile) {
+			//     _.extend(events_hash, {"tap .delete-fooditem": "deleteFoodItem"});
 
-			} else {
-			    _.extend(events_hash, {"click .delete-fooditem" : "deleteFoodItem"});
-			}
-			return events_hash;
+			// } else {
+			//     _.extend(events_hash, {"click .delete-fooditem" : "deleteFoodItem"});
+			// }
+			// return events_hash;
 	    },
 
 		template: _.template(itemTemplate),
@@ -35,6 +35,17 @@ define([
 
 			this.hammerTime.on("touch release dragleft dragright", function(ev) {
 				that.handleSwipe(ev);
+			});
+
+			Events.on("blockHorizontal", function(){
+				that.hammerTime.off();
+			});
+			
+
+			Events.on("allowHorizontal", function(){
+				that.hammerTime.on("touch release dragleft dragright", function(ev) {
+					that.handleSwipe(ev);
+				});
 			});
 
 			_.bindAll(this);
