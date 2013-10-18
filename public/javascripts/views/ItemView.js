@@ -86,7 +86,6 @@ define([
 
     					this.el.getElementsByClassName('top')[0].className = this.uiElementClasName;
     					this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
-						// this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + (this.fullWidth) + 'px,0)';
 						this.$el.find(".check-button").hide();
 						this.slidePosition = 0;
 
