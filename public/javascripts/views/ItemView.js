@@ -110,7 +110,7 @@ define([
     				}
     				else{
     					setTimeout(function(){
-							Events.trigger("aallowVertical");
+							Events.trigger("allowVertical");
 						}, 100);
 
     				}
