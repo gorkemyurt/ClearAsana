@@ -88,7 +88,7 @@ define([
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(90deg) ';
 		            	setTimeout(function(){
 							Events.trigger("allowHorizontal");
-						}, 300);
+						}, 100);
 
 
 		            	break;

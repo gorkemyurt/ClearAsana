@@ -1,88 +1,137 @@
 body {
-  background-color: #fcfcf9;
-  font-size: 16px;
-  color: #3d3f44;
-  font-family: "Calibri", "Helvetica", "Arial", sans-serif;
+  font-weight: bold;
+  background-color: #292929 !important;
 }
 p {
   margin-bottom: 1em;
 }
-hr {
-  margin: 10px 0px;
-  border: none;
-  height: 1px;
-  background-color: #ccc;
-  -webkit-box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.75);
-  box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.75);
+html {
+  overflow-x: hidden;
 }
-
-
-div {
-  height: 50px;
+#wrapper {
+  overflow-x: hidden;
+}
+.todo {
+  height: 20px;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  line-height: 20px;
+  font-size: 15px;
+  position: absolute;
+  width: 100%;
+  z-index: 9999;
 }
 .div1 {
   background-color: #de2617;
 }
 .div2 {
-  background-color: #ed3526;
+  background-color: #f23a2b;
 }
 .div3 {
-  background-color: #fc4435;
-}
-.div4 {
   background-color: #fd650a;
 }
+.div4 {
+  background-color: #ff791e;
+}
 .div5 {
-  background-color: #ff7419;
+  background-color: #ff8d32;
 }
 .div6 {
   background-color: #fbb704;
 }
-
+.div7 {
+  background-color: #ffcb18;
+}
+.div8 {
+  background-color: #ffdf2c;
+}
 /* Static state */
-    #container  { 
-      width: 400px; 
-      height: 400px; 
-      position: relative; 
-      border: 1px solid #ccc; 
-    }
-    .parent1  { 
-      /* overall animation container */
-      height: 0; 
-      overflow: hidden;
-
-      -webkit-transition-property: height;
-      -webkit-transition-duration: .5s; 
-      -webkit-perspective: 1000px; 
-      -webkit-transform-style: preserve-3d; 
-    }
-    .parent2  { 
-      /* full content during animation *can* go here */ 
-    }
-    .parent3  { 
-      /* animated, "folded" block */
-      height: 50px; 
-
-      -webkit-transition-property: all; 
-      -webkit-transition-duration: 1s;
-      -webkit-transform: rotateX(90deg);
-      -webkit-transform-origin: bottom; 
-
-    }
-
-    /* Hover states to trigger animations */
-    #container:hover .parent1 { height: 111px; }
-
-
-    
-    #container:hover .parent3 { 
-      -webkit-transform: rotateX(0deg); 
-      -moz-transform: rotateX(0deg); 
-      -o-transform: rotateX(0deg); 
-      transform: rotateX(0deg); 
-      height: 111px; 
-    }
-
-
-
-    
+#special {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#pull-mes {
+  margin-left: 2%;
+}
+#rel-mes {
+  margin-left: 2%;
+  display: none;
+}
+#list {
+  position: relative;
+  overflow-x: hidden;
+}
+#add-item-input {
+  padding: 10px;
+  padding-left: 3px;
+  background-color: #de2617;
+  color: white;
+  border: none;
+  display: none;
+  line-height: 20px;
+  font-size: 15px;
+  height: 20px;
+  width: 300px;
+  font-weight: bold;
+  margin-left: 2%;
+}
+input,
+select {
+  outline: none;
+}
+.item-container {
+  height: 60px;
+  width: 100%;
+  line-height: 20px;
+  font-size: 15px;
+  position: relative;
+}
+.bottom {
+  z-index: 1;
+}
+.button-container {
+  position: relative;
+}
+.content {
+  margin-left: 2%;
+}
+.green {
+  background-color: green !important;
+}
+.dark-grey {
+  background-color: #4e4e4e;
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+.delete-button {
+  position: absolute;
+  right: 2%;
+  top: 3px;
+  font-size: 25px;
+  font-weight: bold;
+  opacity: 0.4;
+  color: red;
+}
+.check-button {
+  margin-left: 2%;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  opacity: 0.4;
+}
+#container {
+  background-color: #292929 !important;
+  position: absolute;
+  top: -60px;
+  width: 100%;
+  height: 60px;
+  -webkit-perspective: 500;
+  padding: 0px;
+}
+.parent2 {
+  -webkit-transform: rotateX(90deg);
+  -webkit-transform-origin: bottom;
+}
+/* Hover states to trigger animations */

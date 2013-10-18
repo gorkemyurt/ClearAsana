@@ -71,7 +71,7 @@ define([
     					this.slidePosition = 0;
 						setTimeout(function(){
 							Events.trigger("allowVertical");
-						}, 100);
+						}, 50);
 
     					break;
     				}
@@ -86,7 +86,7 @@ define([
 						var that = this; 
 						setTimeout(function(){
 							Events.trigger("allowVertical");
-						}, 100);
+						}, 50);
 						setTimeout(function(){
 							that.remove();
 						}, 500);
@@ -111,7 +111,7 @@ define([
     				else{
     					setTimeout(function(){
 							Events.trigger("allowVertical");
-						}, 100);
+						}, 50);
 
     				}
 
