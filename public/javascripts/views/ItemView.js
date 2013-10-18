@@ -119,6 +119,7 @@ define([
 							console.log("number 1");
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".check-button").css('opacity', 1);
+    						this.$el.find(".delete-button").hide();
     						this.el.getElementsByClassName('top')[0].className =  this.el.getElementsByClassName('top')[0].className + " green";
 						}
 												// if (Math.abs(slideRate) > 130) {
