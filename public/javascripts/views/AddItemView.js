@@ -24,10 +24,12 @@ define([
 			});
 
 			Events.on("blockVertical", function(){
+				console.log("blocking vertical");
     			hammertime.off();
     		});
 
     		Events.on("allowVertical", function(){
+				console.log("allowing vertical");
     			hammertime.on("touch release dragdown", function(ev) {
 					that.handleDrag(ev);
 				});
