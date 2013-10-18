@@ -127,7 +127,7 @@ define([
     						this.el.getElementsByClassName('top')[0].className = this.uiElementClasName;
 							
 						}
-						else if ( -(slideRate) > 90 &&  -(slideRate) < 200){
+						else if ( (slideRate) > 90 &&  (slideRate) < 200){
 							console.log("number 1");
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".check-button").css('opacity', 1);
