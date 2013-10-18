@@ -4,25 +4,35 @@ define([
 	'backbone',
 	'marionette',
 	'hammer',
+	'events',
 	'text!templates/addItemTemplate.html'
-], function ($,_, Backbone, Marionette, hammer, addItemTemplate) {
+], function ($,_, Backbone, Marionette, hammer,Events, addItemTemplate) {
 	'use strict';
 
     var AddItemView = Backbone.Marionette.ItemView.extend({
     	template : _.template(addItemTemplate),
     	initialize:function(){
+    		var that = this;
+    		$('body').hammer();
     		this.dragHeight = 0;
     		this.inputVisible = false;
     		this.relMesVisible = false;
-
-    		$('body').hammer();
     		_.bindAll(this);
-    		var that = this;
-			Hammer($('#special')[0], {drag_block_horizontal: true}).on("touch release dragdown", function(ev) {
+    		var hammertime = Hammer($('#special')[0]);
+			hammertime.on("touch release dragdown", function(ev) {
 				that.handleDrag(ev);
 			});
 
-// drag_block_vertical: false
+			Events.on("blockVertical", function(){
+    			hammertime.off();
+    		});
+
+    		Events.on("allowVertical", function(){
+    			hammertime.on("touch release dragdown", function(ev) {
+					that.handleDrag(ev);
+				});
+    		});
+
     	},
     	events:{
 			"keyup #add-item-input" : "submitItem"
