@@ -71,7 +71,7 @@ define([
     					this.slidePosition = 0;
 						setTimeout(function(){
 							Events.trigger("allowVertical");
-						}, 50);
+						}, 100);
 
     					break;
     				}
@@ -85,10 +85,9 @@ define([
 
 						var that = this; 
 						setTimeout(function(){
-							Events.trigger("allowVertical");
-						}, 50);
-						setTimeout(function(){
 							that.remove();
+							Events.trigger("allowVertical");
+
 						}, 500);
 						break;
     				}
@@ -128,7 +127,7 @@ define([
     						this.el.getElementsByClassName('top')[0].className = this.uiElementClasName;
 							
 						}
-						else if (Math.abs(slideRate) > 90 &&  Math.abs(slideRate) < 200){
+						else if ( -(slideRate) > 90 &&  -(slideRate) < 200){
 							console.log("number 1");
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".check-button").css('opacity', 1);
