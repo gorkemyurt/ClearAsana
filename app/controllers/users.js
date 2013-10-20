@@ -47,7 +47,7 @@ exports.addTask = function(req, res) {
   });
 
   req2.write(data);
-  req2.end("ok");
+  req2.end();
 
 }
 
@@ -56,7 +56,12 @@ exports.editTask = function(req, res) {
   var task_id = req.url.split("/tasks/")[1];
   var url ='/api/1.0/tasks/' + task_id;
   var postBase = "app.asana.com";
-  var data = querystring.stringify( {name : req.body.name , completed: req.body.completed});
+  var data;
+  if (req.body.complete) {
+    data = querystring.stringify( {name : req.body.name , completed: req.body.completed});
+  } else {
+    data = querystring.stringify( {name : req.body.name });
+  }
   var options = {
     host: postBase,
     port: 443,
