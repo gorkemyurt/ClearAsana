@@ -16,5 +16,9 @@ exports.login = function(req,res){
 	}
 }
 
+exports.deleteTask = function(req,res){
+  console.log("lalala");
+}
+
 
 

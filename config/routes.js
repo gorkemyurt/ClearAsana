@@ -12,12 +12,7 @@ var https = require('https');
 
 module.exports = function (app, passport) {
 
- // twitter auth
-	
-	app.get('/auth/google', passport.authenticate('google', {scope : [ 'openid', 'email', "https://www.googleapis.com/auth/calendar"]}));
-
 	app.get('/redirect', function(req,res){
-			console.log(req.url);
 			var code = req.url.split("=")[1];
 			var postBase = "app.asana.com";
 
@@ -51,11 +46,15 @@ module.exports = function (app, passport) {
 	});
 
 	app.get('/logout', function(req,res){
-		req.logout();
+		req.session.user = null;
 		res.redirect('/');
 	});
-	
+
 	app.get('/', users.login);
+	app.delete('/task/:id', users.deleteTask);
+	// app.put('tasks/:id', users.editTask);
+	// app.post('/tasks', users.addTask);
+	// app.get('/tasks', users.getTasks);
 
 
 }
