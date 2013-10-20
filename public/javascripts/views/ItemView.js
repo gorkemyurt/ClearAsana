@@ -108,6 +108,8 @@ define([
 						var that = this; 
 						setTimeout(function(){
 							// that.remove();
+							console.log("destroyed a task");
+							that.model.set("id", 1 ,{silent: true});
 							that.model.destroy();
 							Events.trigger("allowVertical");
 
