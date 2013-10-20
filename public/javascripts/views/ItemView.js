@@ -129,6 +129,7 @@ define([
     					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
     					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
     					this.model.set("completed", true, { silent: true });
+    					this.model.save();
     					this.el.getElementsByClassName('top')[0].className = this.uiElementClassName;
     					this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
 						console.log(this.el.getElementsByClassName('top')[0].className );
@@ -151,6 +152,7 @@ define([
     					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
 						this.slidePosition = 0;
 						this.model.set("completed", false, { silent: true });
+    					this.model.save();
 
 						var that = this;
 						setTimeout(function(){

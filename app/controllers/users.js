@@ -21,12 +21,12 @@ exports.login = function(req,res){
 }
 
 exports.addTask = function(req, res) {
-  console.log("hello");
+  // console.log(req.session.user.data.email);
+  // debugger;
   var url ='/api/1.0/tasks?workspace=' + req.session.workspace_id;
-  console.log(req.session.workspace_id);
+  console.log(url);
   var postBase = "app.asana.com";
-  var data = querystring.stringify( {name : req.body.name} );
-  console.log(JSON.parse(req.session.user).access_token);
+  var data = querystring.stringify({name : req.body.name , assignee : JSON.parse(req.session.user).data.email });
   var options = {
     host: postBase,
     port: 443,
@@ -39,7 +39,7 @@ exports.addTask = function(req, res) {
   };
   var req2 = https.request(options, function(res2) {
     res2.on('data', function(chunk) {
-      console.log("BODY" + chunk);
+      console.log(chunk + "");
     });
     res2.on('error', function(e){
       console.log(e.message);
@@ -48,13 +48,15 @@ exports.addTask = function(req, res) {
 
   req2.write(data);
   req2.end("ok");
+
 }
 
 exports.editTask = function(req, res) {
+  console.log(req.body);
   var task_id = req.url.split("/tasks/")[1];
   var url ='/api/1.0/tasks/' + task_id;
   var postBase = "app.asana.com";
-  var data = querystring.stringify( {name : req.body.name});
+  var data = querystring.stringify( {name : req.body.name , completed: req.body.completed});
   var options = {
     host: postBase,
     port: 443,
