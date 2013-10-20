@@ -115,7 +115,7 @@ define([
 						setTimeout(function(){
 							that.remove();
 							console.log("destroyed a task");
-							that.model.set("id", 1 ,{silent: true});
+							// that.model.set("id", 1 ,{silent: true});
 							that.model.destroy();
 							that.remove();
 							Events.trigger("allowVertical");
