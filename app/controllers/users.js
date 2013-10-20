@@ -7,7 +7,9 @@ var mongoose = require('mongoose')
  , _ = require('underscore')
 
 exports.login = function(req,res){
-	if(req.user){
+	if(req.session.user){
+		console.log(req.session);
+		res.render('index');
 	}
 	else{
 		res.render('login')

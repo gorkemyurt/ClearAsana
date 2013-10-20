@@ -21,8 +21,6 @@ module.exports = function (app, passport) {
 			var code = req.url.split("=")[1];
 			var postBase = "app.asana.com";
 
-			console.log('/-/oauth_token?grant_type=authorization_code&client_id=8251548813361&client_secret=3172e3f14a96ee0463067f2f62b3c764&redirect_uri=http://localhost:3000/redirect&code=' + code
-);
 			var options = {
 				host: postBase,
 				port: 443,
@@ -43,19 +41,13 @@ module.exports = function (app, passport) {
 
 			        res2.on('end', function() {
 			        	console.log(output);
-			            // var obj = JSON.parse(output);
-			            // res.render('index', {title: output});
+			        	req.session.user = output;
+			        	res.redirect("/");
+
 			        });
-			    });
+			});
+			req2.end();
 
-			    req2.on('error', function(err) {
-			    	console.log(err);
-			        //res.send('error: ' + err.message);
-			    });
-
-			    req2.end();
-
-			// res.redirect("/");
 	});
 
 	app.get('/logout', function(req,res){
