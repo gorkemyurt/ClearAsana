@@ -9,13 +9,16 @@ define([
 	'use strict';
 
 	var Items = Backbone.Collection.extend({
-		urlRoot : '/tasks',
+		url : '/tasks',
 	    model : itemModel,
 
 	   	initialize : function() {
-
 	   		// this.on('change', this.onModelSaved , this);
 	   	},
+	   	parse: function(response){
+	   		console.log(response);
+            return response.data;
+        },
 	   	comparator: function(model) {
 			if(model.get("completed"))
 				return -1;
@@ -24,7 +27,7 @@ define([
 			}
 
     	},
-	
+
 	});
 
 	return Items;

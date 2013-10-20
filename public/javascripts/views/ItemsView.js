@@ -15,21 +15,26 @@ define([
 			Events.on("collection:Reorder", function(){
 				that.render();
 			});
+			// for (var item in this.collection.models){
+			// 	console.log("i am here");
+			// 	this.collection.models[item].set("rank", 'div' + (this.collection.models.length + 1 - item));
+			// }
+
     	},
     	onBeforeRender: function(){
     		// console.log(this.collection);
     		this.collection.sort();
   		},
     	appendHtml: function(collectionView, itemView){
-    	// var counter = 1;
-			for (var item in this.collection.models){
-
+    		for (var item in this.collection.models){
 				this.collection.models[item].set("rank", 'div' + (this.collection.models.length + 1 - item));
 			}
+
+    	// var counter = 1;
 		    collectionView.$el.prepend(itemView.el);
 		}
     });
     return ItemsView;
-	
+
 });
 

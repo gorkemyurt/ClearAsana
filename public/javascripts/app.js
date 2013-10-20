@@ -21,15 +21,27 @@ define([
     MyApp.addInitializer(function(){
       // MyApp.items = new Items([{content: "hello world", rank: 0}] );
 
-      MyApp.items = new Items([{content: "hello world", rank: 0}, {content: "hello world2", rank: 0}, {content: "hello world3", rank: 0}] );
+      MyApp.items = new Items();
+      // Items.fetch();
+      MyApp.items.fetch({success : function(smt, res){
+        // for(var item in MyApp.items.models){
+        //   console.log(item);
+        //     MyApp.items.models[item].set("rank", 'div' + (MyApp.items.length + 1 - item));
+        //     console.log("INNER LOOP");
+        // }
 
-      MyApp.ItemsView = new ItemsView({collection: MyApp.items})
-      
-      MyApp.AddItemView = new AddItemView({collection: MyApp.items});
+        console.log("OUTER LOOP");
 
-      MyApp.wrapper.show(MyApp.AddItemView);
+        MyApp.ItemsView = new ItemsView({collection: MyApp.items});
 
-      MyApp.list.show(MyApp.ItemsView);
+        MyApp.AddItemView = new AddItemView({collection: MyApp.items});
+
+        MyApp.wrapper.show(MyApp.AddItemView);
+
+        MyApp.list.show(MyApp.ItemsView);
+
+      }});
+
                     // $("#release-mes").toggle();
 
     //   Hammer($('#special')[0] ).on("touch release dragdown", function(ev) {

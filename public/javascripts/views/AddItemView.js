@@ -6,11 +6,12 @@ define([
 	'hammer',
 	'events',
 	'text!templates/addItemTemplate.html'
-], function ($,_, Backbone, Marionette, hammer,Events, addItemTemplate) {
+], function ($,_, Backbone, Marionette, hammer, Events, addItemTemplate) {
 	'use strict';
 
     var AddItemView = Backbone.Marionette.ItemView.extend({
     	template : _.template(addItemTemplate),
+
     	initialize:function(){
     		var that = this;
     		$('body').hammer();
@@ -19,19 +20,19 @@ define([
     		this.relMesVisible = false;
     		_.bindAll(this);
     		var hammertime = Hammer($('#special')[0]);
-			// hammertime.on("touch release dragdown", function(ev) {
-			// 	that.handleDrag(ev);
-			// });
+			hammertime.on("touch release dragdown", function(ev) {
+				that.handleDrag(ev);
+			});
 
-			// Events.on("blockVertical", function(){
-   //  			hammertime.off();
-   //  		});
+			Events.on("blockVertical", function(){
+    			hammertime.off();
+    		});
 
-   //  		Events.on("allowVertical", function(){
-   //  			hammertime.on("touch release dragdown", function(ev) {
-			// 		that.handleDrag(ev);
-			// 	});
-   //  		});
+    		Events.on("allowVertical", function(){
+    			hammertime.on("touch release dragdown", function(ev) {
+					that.handleDrag(ev);
+				});
+    		});
 
     	},
     	events:{
@@ -45,17 +46,19 @@ define([
 				$('#rel-mes').toggle();
 				this.inputVisible = false;
 				this.dragHeight = 0;
-				this.collection.add({content: $('#add-item-input').val(), rank : 0})
+				this.collection.add({name: $('#add-item-input').val(), rank : 0})
 				$('#add-item-input').val("");
 
 				$("#list").animate({ opacity: 1 }, 500, 'ease-out')
 			}
     	},
 	   	handleDrag: function(ev){
+	   		console.log("DRAGEVENT");
 	   		switch(ev.type){
 		        case 'touch':
 
 		        case 'release':
+	   				// console.log("DRAGEVENT");
 		            if(this.dragHeight > 40)  {
 		            	$('#special')[0].style.webkitTransform = 'translate3d(0,60px,0) scale3d(1,1,1)';
 		            	$(".parent2")[0].style.webkitTransform = 'rotateX(0deg)';
@@ -65,7 +68,7 @@ define([
 							this.inputVisible = true;
 							$('#add-item-input').focus();
 							$("#list").animate({ opacity: 0.3 }, 500, 'ease-out');
-							
+
 
 		            	}
 						setTimeout(function(){
@@ -89,8 +92,14 @@ define([
 
 
 		            }
+		            else{
+		            	setTimeout(function(){
+							Events.trigger("allowHorizontal");
+						}, 100);
+		            }
 		        case 'dragdown':
 		        //here you should consider starting the interaction after the user lowered down a little bit
+		            console.log("horizontal blocked");
 		            Events.trigger("blockHorizontal");
 		            this.dragHeight = ev.gesture.deltaY;
 		            if(this.dragHeight >= 60 ){
@@ -130,5 +139,5 @@ define([
 		}
     });
     return AddItemView;
-	
+
 });

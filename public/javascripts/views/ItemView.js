@@ -9,17 +9,14 @@ define([
 	'use strict';
 
 	var ItemView = Backbone.Marionette.ItemView.extend({
-	    events: {
-			"keyup .edit-item-input" : "editItem"
-	    },
 
 		template: _.template(itemTemplate),
-
+		events: {
+			"keyup .edit-item-input" : "editItem"
+	    },
 		initialize : function(){
-
 			this.fullWidth = $('.todo').width();
 			var that = this;
-			var string = "fdafs";
 			this.slidePosition = 0 ;
 			this.releaselock = false;
 			this.hammerTime = Hammer(this.$el);
@@ -29,7 +26,7 @@ define([
 			});
 
 			Events.on("blockHorizontal", function(){
-				that.hammerTime.off();
+				that.hammerTime.off('touch doubletap release dragleft dragright');
 			});
 
 
@@ -45,6 +42,10 @@ define([
 
     	},
 		onRender: function(){
+			// console.log("RENDER");
+
+            // console.log(this.model.get("rank"));
+
 			if(this.model.get("completed")){
 				console.log("adding dark grey");
 				this.$el.find(".check-button").hide();
@@ -56,27 +57,31 @@ define([
 		},
 
     	editItem : function(ev){
-
     		if(ev.keyCode === 13 ){
+
+    				console.log(this.$el.find(".edit-item-input").val());
+
     				this.$el.find(".edit-item-input").css("display","none");
 	    			this.$el.find(".content").css("display","block");
-					this.model.set("content", this.$el.find(".edit-item-input").val());
-					this.$el.find(".content").text(this.model.get("content"));
+					this.model.set("name", this.$el.find(".edit-item-input").val());
+					this.$el.find(".content").text(this.model.get("name"));
 					this.$el.find(".edit-item-input").val("");
 					$(".item-container").addClass("opacity");
 	    			$(".opacity").animate({ opacity: 1 }, 500, 'ease-out');
     		}
     	},
     	handleSwipe:function(ev){
+    		console.log("ITEM EVENT");
     		// var that = this;
     		switch(ev.type){
 
     			case 'doubletap':
+    				console.log(ev.type);
     				this.$el.find(".edit-item-input").css("display","block");
     				this.$el.find(".edit-item-input").css("background-color",this.$el.find(".top").css("background-color"));
     				this.$el.find(".content").css("display","none");
-    				this.model.set("content", this.$el.find(".content").text() )
-    				this.$el.find(".edit-item-input").val(this.model.get("content"));
+    				this.model.set("name", this.$el.find(".content").text() )
+    				this.$el.find(".edit-item-input").val(this.model.get("name"));
     				this.$el.find(".edit-item-input")[0].focus();
     				this.$el.find(".item-container").removeClass("opacity");
     				$(".opacity").animate({ opacity: 0.3 }, 500, 'ease-out');
