@@ -60,7 +60,7 @@ exports.editTask = function(req, res) {
   if (req.body.complete) {
     data = querystring.stringify( {name : req.body.name , completed: req.body.completed});
   } else {
-    data = querystring.stringify( {name : req.body.name });
+    data = querystring.stringify( {name : req.body.name , completed: false});
   }
   var options = {
     host: postBase,
