@@ -19,21 +19,19 @@ define([
     		this.relMesVisible = false;
     		_.bindAll(this);
     		var hammertime = Hammer($('#special')[0]);
-			hammertime.on("touch release dragdown", function(ev) {
-				that.handleDrag(ev);
-			});
+			// hammertime.on("touch release dragdown", function(ev) {
+			// 	that.handleDrag(ev);
+			// });
 
-			Events.on("blockVertical", function(){
-				console.log("blocking vertical");
-    			hammertime.off();
-    		});
+			// Events.on("blockVertical", function(){
+   //  			hammertime.off();
+   //  		});
 
-    		Events.on("allowVertical", function(){
-				console.log("allowing vertical");
-    			hammertime.on("touch release dragdown", function(ev) {
-					that.handleDrag(ev);
-				});
-    		});
+   //  		Events.on("allowVertical", function(){
+   //  			hammertime.on("touch release dragdown", function(ev) {
+			// 		that.handleDrag(ev);
+			// 	});
+   //  		});
 
     	},
     	events:{
@@ -43,9 +41,7 @@ define([
     	submitItem: function(ev){
     		if ( ev.keyCode === 13 ) { // 13 is enter key
     			$('#special')[0].style.webkitTransform = 'translate3d(0,0,0) scale3d(1,1,1)';
-
 				$('#add-item-input').toggle();
-
 				$('#rel-mes').toggle();
 				this.inputVisible = false;
 				this.dragHeight = 0;

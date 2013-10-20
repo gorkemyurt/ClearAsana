@@ -9,6 +9,7 @@ define([
 	'use strict';
 
 	var Items = Backbone.Collection.extend({
+		urlRoot : '/tasks',
 	    model : itemModel,
 
 	   	initialize : function() {
@@ -20,3 +21,8 @@ define([
 
 	return Items;
 });
+
+
+// setInterval(function() {
+//   channel.fetch();
+// }, 10000);

@@ -8,11 +8,6 @@ var mongoose = require('mongoose')
 
 exports.login = function(req,res){
 	if(req.user){
-		global.id = req.user.id;
-		global.email = req.user.email;
-		console.log(req.user);
-		res.send(req.profile);
-		res.render('index' , {user : req.user.id});
 	}
 	else{
 		res.render('index')

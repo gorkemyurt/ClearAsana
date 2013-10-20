@@ -10,17 +10,6 @@ define([
 
 	var ItemView = Backbone.Marionette.ItemView.extend({
 	    events: function(){
-	  //   	var isMobile = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry)/);
-	  //   	var events_hash = {
-   //  			// insert all the events that go here regardless of mobile or not
-  	// 		};
-			// if (isMobile) {
-			//     _.extend(events_hash, {"tap .delete-fooditem": "deleteFoodItem"});
-
-			// } else {
-			//     _.extend(events_hash, {"click .delete-fooditem" : "deleteFoodItem"});
-			// }
-			// return events_hash;
 	    },
 
 		template: _.template(itemTemplate),
@@ -54,12 +43,26 @@ define([
 
     	},
     	handleSwipe:function(ev){
-
+    		console.log(ev.type);
     		// var that = this;
     		switch(ev.type){
+
     			case 'touch':
+
+    				this.$el.find(".edit-item-input").css("display","block");
+    				console.log(this.$el.find(".top").css("background-color"));
+    				this.$el.find(".edit-item-input").css("background-color",this.$el.find(".top").css("background-color"));
+    				this.$el.find(".content").css("display","none");
+    				this.$el.find(".edit-item-input").val(this.$el.find(".content").text());
+    				this.$el.find(".edit-item-input")[0].focus();
     				this.uiElement = this.el.getElementsByClassName('top')[0];
     				this.uiElementClasName = this.el.getElementsByClassName('top')[0].className;
+    				// this.$el.parent().removeClass("opacity");
+    				// console.log(this.$el.parent().find("item-container").attr('class'));
+    				$(".opacity").animate({ opacity: 0.3 }, 500, 'ease-out');
+
+
+    				// console.log(this.$el.find(".edit-item-input")[0]);
     				
 
     			case 'release':

@@ -7,7 +7,7 @@ define([
 
 	var Item = Backbone.Model.extend({
 		// idAttribute: "_id",
-		// urlRoot : '/email'
+		urlRoot : '/tasks'
 	}); 
 
 

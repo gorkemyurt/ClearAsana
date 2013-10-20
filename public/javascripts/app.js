@@ -19,6 +19,7 @@ define([
     });
 
     MyApp.addInitializer(function(){
+      // MyApp.items = new Items([{content: "hello world", rank: 0}] );
 
       MyApp.items = new Items([{content: "hello world", rank: 0}, {content: "hello world2", rank: 0}, {content: "hello world3", rank: 0}] );
 
