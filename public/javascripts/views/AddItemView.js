@@ -5,8 +5,9 @@ define([
 	'marionette',
 	'hammer',
 	'events',
+  'Item',
 	'text!templates/addItemTemplate.html'
-], function ($,_, Backbone, Marionette, hammer, Events, addItemTemplate) {
+], function ($,_, Backbone, Marionette, hammer, Events, Item, addItemTemplate) {
 	'use strict';
 
     var AddItemView = Backbone.Marionette.ItemView.extend({
@@ -46,7 +47,10 @@ define([
 				$('#rel-mes').toggle();
 				this.inputVisible = false;
 				this.dragHeight = 0;
-				this.collection.add({name: $('#add-item-input').val(), rank : 0})
+				this.collection.add({name: $('#add-item-input').val(), rank : 0});
+        var newItem = new Item({name: $('#add-item-input').val(), rank : 0});
+        newItem.save();
+        // this.model.save({name: $('#add-item-input').val(), rank : 0});
 				$('#add-item-input').val("");
 
 				$("#list").animate({ opacity: 1 }, 500, 'ease-out')

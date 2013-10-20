@@ -20,32 +20,60 @@ exports.login = function(req,res){
 	}
 }
 
-exports.editTask = function(req, res) {
-    console.log("hello from edit");
-    var url ='/api/1.0/tasks/8251488465186';
-    var postBase = "app.asana.com";
-    var task_id = req.url.split("/tasks/")[1];
-    var url = '/api/1.0/tasks/' + task_id;
-    var data = querystring.stringify( {name : "gorkem"});
-    var options = {
-      host: postBase,
-      port: 443,
-      path: url,
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer ' + JSON.parse(req.session.user).access_token,
-      }
-    };
-    var req2 = https.request(options, function(res2) {
-      res2.on('data', function(chunk) {
-        console.log(chunk);
-      });
+exports.addTask = function(req, res) {
+  console.log("hello");
+  var url ='/api/1.0/tasks?workspace=' + req.session.workspace_id;
+  console.log(req.session.workspace_id);
+  var postBase = "app.asana.com";
+  var data = querystring.stringify( {name : req.body.name} );
+  console.log(JSON.parse(req.session.user).access_token);
+  var options = {
+    host: postBase,
+    port: 443,
+    path: url,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ' + JSON.parse(req.session.user).access_token,
+    }
+  };
+  var req2 = https.request(options, function(res2) {
+    res2.on('data', function(chunk) {
+      console.log("BODY" + chunk);
+    });
+    res2.on('error', function(e){
+      console.log(e.message);
+    });
+  });
 
+  req2.write(data);
+  req2.end("ok");
+}
+
+exports.editTask = function(req, res) {
+  var task_id = req.url.split("/tasks/")[1];
+  var url ='/api/1.0/tasks/' + task_id;
+  var postBase = "app.asana.com";
+  var data = querystring.stringify( {name : req.body.name});
+  var options = {
+    host: postBase,
+    port: 443,
+    path: url,
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ' + JSON.parse(req.session.user).access_token,
+    }
+  };
+  var req2 = https.request(options, function(res2) {
+    res2.on('data', function(chunk) {
+      console.log(chunk);
     });
 
-    req2.write(data);
-    req2.end();
+  });
+
+  req2.write(data);
+  req2.end();
 }
 
 exports.deleteTask = function(req,res){
@@ -104,6 +132,9 @@ exports.getTasks = function(req, res) {
 
     res2.on('end', function() {
       var url2 = '/api/1.0/tasks?workspace=' + JSON.parse(output).data.workspaces[0].id + '&assignee=me';
+      if (req.session["workspace"] == null) {
+        req.session["workspace_id"] = JSON.parse(output).data.workspaces[0].id;
+      }
       var options2 = {
         host: postBase,
         port: 443,

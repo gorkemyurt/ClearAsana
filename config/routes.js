@@ -53,7 +53,7 @@ module.exports = function (app, passport) {
 	app.get('/', users.login);
 	app.delete('/tasks/:id', users.deleteTask);
 	app.put('/tasks/:id', users.editTask);
-	// app.post('/tasks', users.addTask);
+	app.post('/tasks', users.addTask);
 	app.get('/tasks', users.getTasks);
 
 
