@@ -7,6 +7,8 @@ var mongoose = require('mongoose')
 , _ = require('underscore')
 , https = require('https')
 , request = require('request')
+, querystring = require('querystring');
+
 
 exports.login = function(req,res){
 	if(req.session.user){
@@ -19,33 +21,31 @@ exports.login = function(req,res){
 }
 
 exports.editTask = function(req, res) {
-  // console.log("hello from edit");
-  var url ='https://app.asana.com/api/1.0/tasks/8251488465186?name=lalalallaa';
-  // var access = JSON.parse(req.session.user).access_token;
-  // console.log(url);
-  // request.put({url: url, oauth: access.to_s});
-  var string = "Authorization: Bearer " + JSON.parse(req.session.user).access_token;
-  request.put({url: url, headers: string});
+    console.log("hello from edit");
+    var url ='/api/1.0/tasks/8251488465186';
+    var postBase = "app.asana.com";
+    var task_id = req.url.split("/tasks/")[1];
+    var url = '/api/1.0/tasks/' + task_id;
+    var data = querystring.stringify( {name : "gorkem"});
+    var options = {
+      host: postBase,
+      port: 443,
+      path: url,
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer ' + JSON.parse(req.session.user).access_token,
+      }
+    };
+    var req2 = https.request(options, function(res2) {
+      res2.on('data', function(chunk) {
+        console.log(chunk);
+      });
 
-//   var options = {
-//     host: postBase,
-//     port: 443,
-//     path: url,
-//     method: 'PUT',
-//     headers: {
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//       'Authorization': 'Bearer ' + JSON.parse(req.session.user).access_token,
-//     }
-//   };
-//   var req2 = https.request(options, function(res2) {
-//     res2.on('data', function(chunk) {
-//     });
-//     res2.on('end', function() {
-//       res.send(200);
-//     });
-//   });
-//   req2.write(data);
-//   req2.end();
+    });
+
+    req2.write(data);
+    req2.end();
 }
 
 exports.deleteTask = function(req,res){
