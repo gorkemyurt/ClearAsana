@@ -107,7 +107,8 @@ define([
 
 						var that = this; 
 						setTimeout(function(){
-							that.remove();
+							// that.remove();
+							that.model.destroy();
 							Events.trigger("allowVertical");
 
 						}, 500);
