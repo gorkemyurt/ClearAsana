@@ -49,8 +49,6 @@ define([
 				$('#add-item-input').val("");
 
 				$("#list").animate({ opacity: 1 }, 500, 'ease-out')
-
-
 			}
     	},
 	   	handleDrag: function(ev){

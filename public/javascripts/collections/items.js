@@ -14,8 +14,16 @@ define([
 
 	   	initialize : function() {
 
-	   		this.on('change', this.onModelSaved , this);
-	   	}
+	   		// this.on('change', this.onModelSaved , this);
+	   	},
+	   	comparator: function(model) {
+			if(model.get("completed"))
+				return -1;
+			else{
+				return 1;
+			}
+
+    	},
 	
 	});
 

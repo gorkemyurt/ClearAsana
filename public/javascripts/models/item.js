@@ -6,7 +6,7 @@ define([
 	'use strict';
 
 	var Item = Backbone.Model.extend({
-		// idAttribute: "_id",
+		// idAttribute: "_id"
 		urlRoot : '/tasks'
 	}); 
 

@@ -10,7 +10,7 @@ exports.login = function(req,res){
 	if(req.user){
 	}
 	else{
-		res.render('index')
+		res.render('login')
 	}
 }
 

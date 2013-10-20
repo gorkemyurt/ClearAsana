@@ -9,7 +9,8 @@ define([
 	'use strict';
 
 	var ItemView = Backbone.Marionette.ItemView.extend({
-	    events: function(){
+	    events: { 
+			"keyup .edit-item-input" : "editItem"
 	    },
 
 		template: _.template(itemTemplate),
@@ -22,7 +23,7 @@ define([
 			this.releaselock = false;
 			this.hammerTime = Hammer(this.$el);
 
-			this.hammerTime.on("touch release dragleft dragright", function(ev) {
+			this.hammerTime.on("touch doubletap release dragleft dragright", function(ev) {
 				that.handleSwipe(ev);
 			});
 
@@ -32,7 +33,7 @@ define([
 			
 
 			Events.on("allowHorizontal", function(){
-				that.hammerTime.on("touch release dragleft dragright", function(ev) {
+				that.hammerTime.on("touch doubletap release dragleft dragright", function(ev) {
 					that.handleSwipe(ev);
 				});
 			});
@@ -42,39 +43,57 @@ define([
     		this.model.on('change-item', this.renderChange);
 
     	},
+		onRender: function(){
+			if(this.model.get("completed")){
+				console.log("adding dark grey");
+				this.$el.find(".check-button").hide();
+				this.$el.find(".delete-button").hide();
+
+				this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
+
+			};
+		},
+
+    	editItem : function(ev){
+
+    		if(ev.keyCode === 13 ){
+    				this.$el.find(".edit-item-input").css("display","none");
+	    			this.$el.find(".content").css("display","block");
+					this.model.set("content", this.$el.find(".edit-item-input").val());
+					this.$el.find(".content").text(this.model.get("content"));
+					this.$el.find(".edit-item-input").val("");
+					$(".item-container").addClass("opacity");
+	    			$(".opacity").animate({ opacity: 1 }, 500, 'ease-out');
+    		}
+    	},
     	handleSwipe:function(ev){
-    		console.log(ev.type);
     		// var that = this;
     		switch(ev.type){
 
-    			case 'touch':
-
+    			case 'doubletap':
     				this.$el.find(".edit-item-input").css("display","block");
-    				console.log(this.$el.find(".top").css("background-color"));
     				this.$el.find(".edit-item-input").css("background-color",this.$el.find(".top").css("background-color"));
     				this.$el.find(".content").css("display","none");
-    				this.$el.find(".edit-item-input").val(this.$el.find(".content").text());
+    				this.model.set("content", this.$el.find(".content").text() )
+    				this.$el.find(".edit-item-input").val(this.model.get("content"));
     				this.$el.find(".edit-item-input")[0].focus();
-    				this.uiElement = this.el.getElementsByClassName('top')[0];
-    				this.uiElementClasName = this.el.getElementsByClassName('top')[0].className;
-    				// this.$el.parent().removeClass("opacity");
-    				// console.log(this.$el.parent().find("item-container").attr('class'));
+    				this.$el.find(".item-container").removeClass("opacity");
     				$(".opacity").animate({ opacity: 0.3 }, 500, 'ease-out');
 
-
-    				// console.log(this.$el.find(".edit-item-input")[0]);
-    				
+    			case 'touch':
+    				this.uiElement = this.el.getElementsByClassName('top')[0];
+    				this.uiElementClassName = this.el.getElementsByClassName('top')[0].className;
 
     			case 'release':
-
     				if(this.slidePosition != 0 && Math.abs(this.slidePosition) <= (90 / 0.7)  ){
-    					console.log("nubmer 1");
     					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.1s linear';
     					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
     					this.slidePosition = 0;
+    					this.$el.find(".check-button").hide();
+
 						setTimeout(function(){
 							Events.trigger("allowVertical");
-						}, 100);
+						}, 200);
 
     					break;
     				}
@@ -94,21 +113,42 @@ define([
 						}, 500);
 						break;
     				}
-    				else if(this.slidePosition != 0 && this.slidePosition > 0){
-    					console.log(this.slidePosition);
+    				else if(this.slidePosition != 0 && this.slidePosition > 0 && (!this.model.get("completed")) ){
+    					console.log("realease 1");
     					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
     					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
-
-    					this.el.getElementsByClassName('top')[0].className = this.uiElementClasName;
+    					this.model.set("completed", true, { silent: true });
+    					this.el.getElementsByClassName('top')[0].className = this.uiElementClassName;
     					this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
+						console.log(this.el.getElementsByClassName('top')[0].className );
 						this.$el.find(".check-button").hide();
 						this.slidePosition = 0;
+						var that = this; 
+						setTimeout(function(){
+							Events.trigger("allowVertical");
+							Events.trigger("collection:Reorder");
+
+
+						}, 200);
+						break;
+    				}
+    				else if(this.slidePosition != 0 && this.slidePosition > 0 && (this.model.get("completed")) ){
+    					console.log("realease 2");
+						// this.$el.find(".check-button").hide();
+
+    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
+    					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
+						this.slidePosition = 0;
+						this.model.set("completed", false, { silent: true });
 
 						var that = this; 
 						setTimeout(function(){
 							Events.trigger("allowVertical");
-						}, 100);
+    						Events.trigger("collection:Reorder");
+
+						}, 200);
 						break;
+
     				}
     				else{
     					setTimeout(function(){
@@ -123,40 +163,30 @@ define([
     					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'none';
 						var slideRate = ev.gesture.deltaX * 0.7;
 						this.slidePosition = ev.gesture.deltaX;
+						this.$el.find(".delete-button").show();
+
+
 						if (Math.abs(slideRate) <= 90 && slideRate != 0 ){
-							console.log("number 2");
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".check-button").css('opacity', 0.3);
-    						this.el.getElementsByClassName('top')[0].className = this.uiElementClasName;
+    						this.el.getElementsByClassName('top')[0].className = this.uiElementClassName;
 							
 						}
 						else if ( (slideRate) > 90 &&  (slideRate) < 200){
-							console.log("number 1");
-							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
-    						this.$el.find(".check-button").css('opacity', 1);
-    						this.$el.find(".delete-button").hide();
-    						this.el.getElementsByClassName('top')[0].className =  this.el.getElementsByClassName('top')[0].className + " green";
+							if(!this.model.get("completed")){
+								this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
+	    						this.$el.find(".check-button").css('opacity', 1);
+	    						this.$el.find(".delete-button").hide();
+	    						this.el.getElementsByClassName('top')[0].className =  this.el.getElementsByClassName('top')[0].className + " green";
+							}
+							else{
+								this.$el.find(".check-button").show();
+    							this.$el.find(".check-button").css('opacity', 1);
+								this.$el.find('.todo').removeClass("dark-grey");
+								this.$el.find('.todo').removeClass("green");
+							}
+
 						}
-												// if (Math.abs(slideRate) > 130) {
-    		// 				this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
-    		// 				this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
-
-						// 	// this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + (this.fullWidth) + 'px,0)';
-    		// 				// this.el.getElementsByClassName('top')[0].className =  this.el.getElementsByClassName('top')[0].className + " green";
-    		// 				this.el.getElementsByClassName('top')[0].className = this.uiElementClasName;
-    		// 				this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
-
-						// 	this.$el.find(".check-button").hide();
-						// 	this.$el.find(".delete-button").hide();
-
-						// 	this.slidePosition = 0;
-    		// 				setTimeout(function(){
-						// 		Events.trigger("allowVertical");
-
-						// 	}, 300);
-
-						// 	break;
-						// }
 
     			case 'dragleft':
     					Events.trigger("blockVertical");
@@ -175,23 +205,7 @@ define([
     						this.el.getElementsByClassName('delete-button')[0].style.webkitTransform = 'translate(' + (slideRate + (90) ) + 'px,0)';
 
 						}
-								
-						// if (Math.abs(slideRate) > 130) {
-    		// 				this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
-						// 	this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + -(this.fullWidth) + 'px,0)';
-						// 	this.$el.find(".check-button").hide();
-						// 	this.$el.find(".delete-button").hide();
-
-						// 	this.slidePosition = 0;
-
-						// 	var that = this; 
-						// 	setTimeout(function(){
-						// 		that.remove();
-						// 		Events.trigger("allowVertical");
-
-						// 	}, 300);
-						// 	break;
-						// }
+					
     		}
     	}
     });
