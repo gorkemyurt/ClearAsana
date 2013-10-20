@@ -19,6 +19,7 @@ define([
 
 			this.fullWidth = $('.todo').width();
 			var that = this;
+			var string = "fdafs";
 			this.slidePosition = 0 ;
 			this.releaselock = false;
 			this.hammerTime = Hammer(this.$el);
@@ -111,6 +112,7 @@ define([
 							console.log("destroyed a task");
 							that.model.set("id", 1 ,{silent: true});
 							that.model.destroy();
+							that.remove();
 							Events.trigger("allowVertical");
 
 						}, 500);
