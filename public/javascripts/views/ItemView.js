@@ -120,6 +120,8 @@ define([
 							that.model.destroy();
 							that.remove();
 							Events.trigger("allowVertical");
+							Events.trigger("collection:Reorder");
+
 
 						}, 500);
 						break;

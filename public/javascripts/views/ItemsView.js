@@ -24,6 +24,10 @@ define([
     	onBeforeRender: function(){
     		// console.log(this.collection);
     		this.collection.sort();
+			for (var item in this.collection.models){
+				this.collection.models[item].set("rank", 'div' + (this.collection.models.length + 1 - item));
+			}
+
   		},
     	appendHtml: function(collectionView, itemView){
     		for (var item in this.collection.models){
