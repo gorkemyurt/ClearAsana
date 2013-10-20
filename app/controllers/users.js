@@ -57,10 +57,12 @@ exports.editTask = function(req, res) {
   var url ='/api/1.0/tasks/' + task_id;
   var postBase = "app.asana.com";
   var data;
-  if (req.body.complete) {
+  if (req.body.completed != null) {
+    console.log(req.body.complete);
+    console.log(req.body.completed);
     data = querystring.stringify( {name : req.body.name , completed: req.body.completed});
   } else {
-    data = querystring.stringify( {name : req.body.name , completed: false});
+    data = querystring.stringify( {name : req.body.name});
   }
   var options = {
     host: postBase,
