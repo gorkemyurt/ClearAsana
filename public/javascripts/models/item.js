@@ -7,11 +7,13 @@ define([
 
 	var Item = Backbone.Model.extend({
 		idAttribute: "id",
-		urlRoot : '/tasks'
-	}); 
+		urlRoot : '/tasks',
+		defaults:{
+			rank : 0
+		}
+	});
 
 
 	return Item;
-	
-});
 
+});
