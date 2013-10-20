@@ -64,6 +64,7 @@ define([
     				this.$el.find(".edit-item-input").css("display","none");
 	    			this.$el.find(".content").css("display","block");
 					this.model.set("name", this.$el.find(".edit-item-input").val());
+					this.model.save();
 					this.$el.find(".content").text(this.model.get("name"));
 					this.$el.find(".edit-item-input").val("");
 					$(".item-container").addClass("opacity");
