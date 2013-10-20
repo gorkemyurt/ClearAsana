@@ -9,7 +9,7 @@ define([
 	'use strict';
 
 	var ItemView = Backbone.Marionette.ItemView.extend({
-	    events: { 
+	    events: {
 			"keyup .edit-item-input" : "editItem"
 	    },
 
@@ -30,7 +30,7 @@ define([
 			Events.on("blockHorizontal", function(){
 				that.hammerTime.off();
 			});
-			
+
 
 			Events.on("allowHorizontal", function(){
 				that.hammerTime.on("touch doubletap release dragleft dragright", function(ev) {
@@ -105,9 +105,9 @@ define([
 						this.$el.find(".check-button").hide();
 						this.slidePosition = 0;
 
-						var that = this; 
+						var that = this;
 						setTimeout(function(){
-							// that.remove();
+							that.remove();
 							console.log("destroyed a task");
 							that.model.set("id", 1 ,{silent: true});
 							that.model.destroy();
@@ -126,7 +126,7 @@ define([
 						console.log(this.el.getElementsByClassName('top')[0].className );
 						this.$el.find(".check-button").hide();
 						this.slidePosition = 0;
-						var that = this; 
+						var that = this;
 						setTimeout(function(){
 							Events.trigger("allowVertical");
 							Events.trigger("collection:Reorder");
@@ -144,7 +144,7 @@ define([
 						this.slidePosition = 0;
 						this.model.set("completed", false, { silent: true });
 
-						var that = this; 
+						var that = this;
 						setTimeout(function(){
 							Events.trigger("allowVertical");
     						Events.trigger("collection:Reorder");
@@ -173,7 +173,7 @@ define([
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".check-button").css('opacity', 0.3);
     						this.el.getElementsByClassName('top')[0].className = this.uiElementClassName;
-							
+
 						}
 						else if ( (slideRate) > 90 &&  (slideRate) < 200){
 							if(!this.model.get("completed")){
@@ -200,7 +200,7 @@ define([
 						if (Math.abs(slideRate) <= 90 && slideRate != 0 ){
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
     						this.$el.find(".delete-button").css('opacity', 0.3);
-							
+
 						}
 						else if (Math.abs(slideRate) > 90 && Math.abs(slideRate) < 150 ){
 							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
@@ -208,11 +208,11 @@ define([
     						this.el.getElementsByClassName('delete-button')[0].style.webkitTransform = 'translate(' + (slideRate + (90) ) + 'px,0)';
 
 						}
-					
+
     		}
     	}
     });
     return ItemView;
-	
+
 });
 
