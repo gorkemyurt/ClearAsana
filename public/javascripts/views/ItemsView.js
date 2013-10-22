@@ -30,8 +30,15 @@ define([
 
   		},
     	appendHtml: function(collectionView, itemView){
+    		var target = this.collection.models.length ;
     		for (var item in this.collection.models){
-				this.collection.models[item].set("rank", 'div' + (this.collection.models.length + 1 - item));
+    			if(this.collection.models.length - item > 7){
+    				var mark = this.collection.models.length + 1;
+    			}
+    			else{
+    				var mark = item;
+    			}
+				this.collection.models[item].set("rank", 'div' + (this.collection.models.length + 1 - mark));
 			}
 
     	// var counter = 1;

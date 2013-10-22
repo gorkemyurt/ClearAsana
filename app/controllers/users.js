@@ -7,8 +7,8 @@ var mongoose = require('mongoose')
 , _ = require('underscore')
 , https = require('https')
 , request = require('request')
-, querystring = require('querystring');
-
+, querystring = require('querystring')
+, asana = require('asana-api');
 
 exports.login = function(req,res){
 	if(req.session.user){
@@ -21,8 +21,7 @@ exports.login = function(req,res){
 }
 
 exports.addTask = function(req, res) {
-  // console.log(req.session.user.data.email);
-  // debugger;
+
   var url ='/api/1.0/tasks?workspace=' + req.session.workspace_id;
   console.log(url);
   var postBase = "app.asana.com";
@@ -39,27 +38,25 @@ exports.addTask = function(req, res) {
   };
   var req2 = https.request(options, function(res2) {
     res2.on('data', function(chunk) {
-      console.log(chunk + "");
+      res.send(200);
+
     });
     res2.on('error', function(e){
       console.log(e.message);
     });
   });
 
-  req2.write(data);
-  req2.end();
+  req2.end(data);
 
 }
 
 exports.editTask = function(req, res) {
-  console.log(req.body);
+
   var task_id = req.url.split("/tasks/")[1];
   var url ='/api/1.0/tasks/' + task_id;
   var postBase = "app.asana.com";
   var data;
   if (req.body.completed != null) {
-    console.log(req.body.complete);
-    console.log(req.body.completed);
     data = querystring.stringify( {name : req.body.name , completed: req.body.completed});
   } else {
     data = querystring.stringify( {name : req.body.name});
@@ -76,13 +73,13 @@ exports.editTask = function(req, res) {
   };
   var req2 = https.request(options, function(res2) {
     res2.on('data', function(chunk) {
-      console.log(chunk);
+        console.log("body" + chunk)
+        res.send(200);
     });
 
   });
 
-  req2.write(data);
-  req2.end();
+  req2.end(data);
 }
 
 exports.deleteTask = function(req,res){
@@ -161,7 +158,12 @@ exports.getTasks = function(req, res) {
           output2 += chunk2;
         });
         res3.on('end', function() {
-        	console.log(output2);
+          // var outputObject = JSON.parse(output2)
+          // console.log(outputObject.data.length);
+          // if (outputObject.data.length > 8){
+          //     console.log("here")
+          //     var outputObject = outputObject.data.splice(outputObject.data.length - 7 ,  7 );
+          // }
         	res.send(output2, 200);
           // checkTask(req, res, output2[0]);
         });

@@ -15,21 +15,15 @@ define([
 			"keyup .edit-item-input" : "editItem"
 	    },
 		initialize : function(){
-			this.fullWidth = $('.todo').width();
 			var that = this;
 			this.slidePosition = 0 ;
-			this.releaselock = false;
 			this.hammerTime = Hammer(this.$el);
-
 			this.hammerTime.on("touch doubletap release dragleft dragright", function(ev) {
 				that.handleSwipe(ev);
 			});
-
 			Events.on("blockHorizontal", function(){
 				that.hammerTime.off('touch doubletap release dragleft dragright');
 			});
-
-
 			Events.on("allowHorizontal", function(){
 				that.hammerTime.on("touch doubletap release dragleft dragright", function(ev) {
 					that.handleSwipe(ev);
@@ -42,14 +36,26 @@ define([
 
     	},
 		onRender: function(){
-			// console.log("RENDER");
+			//here you should be defining some ui elements that are used in the view to make it look much cleaner
 
-            // console.log(this.model.get("rank"));
+			//full width
+			this.fullWidth = $('.todo').width();
 
+			//content-container
+			this.contentContainer = this.$el.find(".content");
+			//edit-item-input
+			this.editItemInput = this.$el.find(".edit-item-input");
+			//delete button
+			this.deleteButton = this.$el.find(".delete-button");
+			//check button
+			this.checkButton = this.$el.find(".check-button");
+			//the whole item ui element
+    		this.uiElement = this.el.getElementsByClassName('top')[0];
+
+    		// change some css if the element is completed
 			if(this.model.get("completed")){
-				console.log("adding dark grey");
-				this.$el.find(".check-button").hide();
-				this.$el.find(".delete-button").hide();
+				this.checkButton.hide();
+				this.deleteButton.hide();
 
 				this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
 
@@ -59,31 +65,27 @@ define([
     	editItem : function(ev){
     		if(ev.keyCode === 13 ){
 
-    				console.log(this.$el.find(".edit-item-input").val());
 
-    				this.$el.find(".edit-item-input").css("display","none");
-	    			this.$el.find(".content").css("display","block");
-					this.model.set("name", this.$el.find(".edit-item-input").val());
+    				this.editItemInput.css("display","none");
+	    			this.contentContainer.css("display","block");
+					this.model.set("name", this.editItemInput.val());
 					this.model.save();
-					this.$el.find(".content").text(this.model.get("name"));
-					this.$el.find(".edit-item-input").val("");
+					this.contentContainer.text(this.model.get("name"));
+					this.editItemInput.val("");
 					$(".item-container").addClass("opacity");
 	    			$(".opacity").animate({ opacity: 1 }, 500, 'ease-out');
     		}
     	},
     	handleSwipe:function(ev){
-    		console.log("ITEM EVENT");
-    		// var that = this;
     		switch(ev.type){
 
     			case 'doubletap':
-    				console.log(ev.type);
-    				this.$el.find(".edit-item-input").css("display","block");
-    				this.$el.find(".edit-item-input").css("background-color",this.$el.find(".top").css("background-color"));
-    				this.$el.find(".content").css("display","none");
-    				this.model.set("name", this.$el.find(".content").text() )
-    				this.$el.find(".edit-item-input").val(this.model.get("name"));
-    				this.$el.find(".edit-item-input")[0].focus();
+    				this.editItemInput.css("display","block");
+    				this.editItemInput.css("background-color",this.$el.find(".top").css("background-color"));
+    				this.contentContainer.css("display","none");
+    				this.model.set("name", this.contentContainer.text() )
+    				this.editItemInput.val(this.model.get("name"));
+    				this.editItemInput[0].focus();
     				this.$el.find(".item-container").removeClass("opacity");
     				$(".opacity").animate({ opacity: 0.3 }, 500, 'ease-out');
 
@@ -93,10 +95,10 @@ define([
 
     			case 'release':
     				if(this.slidePosition != 0 && Math.abs(this.slidePosition) <= (90 / 0.7)  ){
-    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.1s linear';
-    					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
+    					this.uiElement.style.webkitTransition = 'all 0.3s linear';
+    					this.uiElement.style.webkitTransform = 'translate(0,0)';
     					this.slidePosition = 0;
-    					this.$el.find(".check-button").hide();
+    					this.checkButton.hide();
 
 						setTimeout(function(){
 							Events.trigger("allowVertical");
@@ -107,51 +109,39 @@ define([
 
     				else if( this.slidePosition != 0 && this.slidePosition < -(90 / 0.7)){
 
-    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
-						this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + -(this.fullWidth) + 'px,0)';
-						this.$el.find(".check-button").hide();
+    					this.uiElement.style.webkitTransition = 'all 0.3s cubic-bezier(.67, .18, .30, .86)';
+						this.uiElement.style.webkitTransform = 'translate(' + -(this.fullWidth) + 'px,0)';
+						this.checkButton.hide();
 						this.slidePosition = 0;
 
-						var that = this;
 						setTimeout(function(){
-							that.remove();
-							console.log("destroyed a task");
-							// that.model.set("id", 1 ,{silent: true});
-							that.model.destroy();
-							that.remove();
+							this.model.destroy();
 							Events.trigger("allowVertical");
 							Events.trigger("collection:Reorder");
-
-
-						}, 500);
+						}.bind(this), 400);
 						break;
     				}
     				else if(this.slidePosition != 0 && this.slidePosition > 0 && (!this.model.get("completed")) ){
-    					console.log("realease 1");
-    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
-    					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
+    					this.uiElement.style.webkitTransition = 'all 0.3s cubic-bezier(.67, .18, .30, .86)';
+    					this.uiElement.style.webkitTransform = 'translate(0,0)';
     					this.model.set("completed", true, { silent: true });
-    					this.model.save();
-    					this.el.getElementsByClassName('top')[0].className = this.uiElementClassName;
-    					this.el.getElementsByClassName('top')[0].className = this.el.getElementsByClassName('top')[0].className + " dark-grey";
-						console.log(this.el.getElementsByClassName('top')[0].className );
-						this.$el.find(".check-button").hide();
+    					this.uiElement.className = this.uiElementClassName;
+    					this.uiElement.className = this.uiElement.className + " dark-grey";
+						this.checkButton.hide();
 						this.slidePosition = 0;
-						var that = this;
 						setTimeout(function(){
+							this.model.save();
 							Events.trigger("allowVertical");
 							Events.trigger("collection:Reorder");
 
 
-						}, 200);
+						}.bind(this), 400);
 						break;
     				}
     				else if(this.slidePosition != 0 && this.slidePosition > 0 && (this.model.get("completed")) ){
-    					console.log("realease 2");
-						// this.$el.find(".check-button").hide();
 
-    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'all 0.3s linear';
-    					this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(0,0)';
+    					this.uiElement.style.webkitTransition = 'all 0.3s cubic-bezier(.67, .18, .30, .86)';
+    					this.uiElement.style.webkitTransform = 'translate(0,0)';
 						this.slidePosition = 0;
 						this.model.set("completed", false, { silent: true });
     					this.model.save();
@@ -175,28 +165,29 @@ define([
     			case 'dragright':
 
     					Events.trigger("blockVertical");
-    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'none';
+    					this.uiElement.style.webkitTransition = 'none';
 						var slideRate = ev.gesture.deltaX * 0.7;
 						this.slidePosition = ev.gesture.deltaX;
-						this.$el.find(".delete-button").show();
+						this.checkButton.show();
+						this.deleteButton.show();
 
 
 						if (Math.abs(slideRate) <= 90 && slideRate != 0 ){
-							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
-    						this.$el.find(".check-button").css('opacity', 0.3);
-    						this.el.getElementsByClassName('top')[0].className = this.uiElementClassName;
+							this.uiElement.style.webkitTransform = 'translate(' + slideRate + 'px,0)';
+    						this.checkButton.css('opacity', 0.3);
+    						this.uiElement.className = this.uiElementClassName;
 
 						}
 						else if ( (slideRate) > 90 &&  (slideRate) < 200){
 							if(!this.model.get("completed")){
-								this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
-	    						this.$el.find(".check-button").css('opacity', 1);
-	    						this.$el.find(".delete-button").hide();
-	    						this.el.getElementsByClassName('top')[0].className =  this.el.getElementsByClassName('top')[0].className + " green";
+								this.uiElement.style.webkitTransform = 'translate(' + slideRate + 'px,0)';
+	    						this.checkButton.css('opacity', 1);
+	    						this.deleteButton.hide();
+	    						this.uiElement.className =  this.uiElement.className + " green";
 							}
 							else{
-								this.$el.find(".check-button").show();
-    							this.$el.find(".check-button").css('opacity', 1);
+								this.checkButton.show();
+    							this.checkButton.css('opacity', 1);
 								this.$el.find('.todo').removeClass("dark-grey");
 								this.$el.find('.todo').removeClass("green");
 							}
@@ -205,18 +196,18 @@ define([
 
     			case 'dragleft':
     					Events.trigger("blockVertical");
-    					this.el.getElementsByClassName('top')[0].style.webkitTransition = 'none';
+    					this.uiElement.style.webkitTransition = 'none';
 						var slideRate = ev.gesture.deltaX * 0.7;
 						this.slidePosition = ev.gesture.deltaX;
 
 						if (Math.abs(slideRate) <= 90 && slideRate != 0 ){
-							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
-    						this.$el.find(".delete-button").css('opacity', 0.3);
+							this.uiElement.style.webkitTransform = 'translate(' + slideRate + 'px,0)';
+    						this.deleteButton.css('opacity', 0.3);
 
 						}
 						else if (Math.abs(slideRate) > 90 && Math.abs(slideRate) < 150 ){
-							this.el.getElementsByClassName('top')[0].style.webkitTransform = 'translate(' + slideRate + 'px,0)';
-    						this.$el.find(".delete-button").css('opacity', 1);
+							this.uiElement.style.webkitTransform = 'translate(' + slideRate + 'px,0)';
+    						this.deleteButton.css('opacity', 1);
     						this.el.getElementsByClassName('delete-button')[0].style.webkitTransform = 'translate(' + (slideRate + (90) ) + 'px,0)';
 
 						}
