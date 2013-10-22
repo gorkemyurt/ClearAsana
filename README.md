@@ -1,1 +1,1 @@
-built by <a href="http://www.twitter.com/gorkemyurt"> Gorkem </a>
+built by <a href="http://www.twitter.com/gorkemyurt"> Gorkem </a> and Ali <a href="http://www.twitter.com/_AliAltaf">
