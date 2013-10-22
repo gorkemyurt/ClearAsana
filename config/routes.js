@@ -19,7 +19,7 @@ module.exports = function (app, passport) {
 			var options = {
 				host: postBase,
 				port: 443,
-				path: '/-/oauth_token?grant_type=authorization_code&client_id=8251548813361&client_secret=3172e3f14a96ee0463067f2f62b3c764&redirect_uri=http://clearforasana/redirect&code=' + code,
+				path: '/-/oauth_token?grant_type=authorization_code&client_id=8251548813361&client_secret=3172e3f14a96ee0463067f2f62b3c764&redirect_uri=http://clearforasana.herokuapp.com/redirect&code=' + code,
 				method: 'POST',
 				headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
